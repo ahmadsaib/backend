@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caterer # name the project
+  namespace: default # if u have any other mention it here
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caterer
+  template:
+    metadata:
+      labels:
+        app: caterer
+    spec:
+      containers:
+        - name: springboot-pod
+          image: ahmadsaib12/cater:v5 # use ur own docker image
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            # SERVER PORT
+            - name: SERVER_PORT
+              value: '8080'
+            # MONGO DB URI
+            - name: MONGO_DB_URI
+              valueFrom:
+                configMapKeyRef:
+                    name: mongo-db-config
+                    key: uri
+             # MONGO DB NAME
+            - name: MONGO_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-db-config
+                  key: database
+            # KAFKA CONSUMER SERVER
+            - name: KAFKA_CONSUMER_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: kafka-config
+                  key: consumer-server
+            # KAFKA PRODUCER SERVER
+            - name: KAFKA_PRODUCER_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: kafka-config
+                  key: producer-server
+

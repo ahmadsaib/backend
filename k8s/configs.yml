@@ -1,0 +1,29 @@
+### MONGO 
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-db-config
+data:
+  uri: mongodb+srv://ahmad:ahmad@cluster0.xqjvr.mongodb.net/test
+  database : Caterer
+
+---
+#apiVersion: v1
+#kind: Secret
+#metadata:
+#  name: mongo-db-secret
+#data:
+#  pwd : 123 # if u have any put it here , use base64 string
+
+---
+### KAFKA
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+data:
+  consumer-server: localhost:9092
+  producer-server: localhost:9092
+
